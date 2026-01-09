@@ -4,9 +4,6 @@ handoffs:
   - label: 制定技术方案
     agent: speckit.plan
     prompt: 基于 spec.md 中的测试契约制定技术实现计划
-scripts:
-  sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
-  ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
 ---
 
 ## User Input
@@ -44,7 +41,7 @@ $ARGUMENTS
    c. **Execute Script**:
 
    - 使用计算出的参数调用脚本：
-   - `scripts/bash/create-new-feature.sh --json --number <N+1> --short-name "<short-name>" "$ARGUMENTS"`
+   - `scripts/create-new-feature.ps1 --json --number <N+1> --short-name "<short-name>" "$ARGUMENTS"`
 
 3. 加载 `templates/spec-template.md` 以了解所需的章节结构。
 

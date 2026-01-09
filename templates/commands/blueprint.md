@@ -4,9 +4,6 @@ handoffs:
   - label: 任务拆解
     agent: speckit.tasks
     prompt: 基于 blueprint.md 和生成的代码桩进行任务拆解
-scripts:
-  sh: scripts/bash/setup-blueprint.sh
-  ps: scripts/powershell/setup-blueprint.ps1
 ---
 
 ## User Input
@@ -23,7 +20,7 @@ $ARGUMENTS
 3. `api.md`: 用于生成 API 接口的函数签名。
 4. `spec.md`: 用于生成测试用例的名称和 Docstring。
 
-**Step 2: Structure Mapping** 基于 `plan.md` 定义的项目结构，规划代码文件的物理路径。
+**Step 2: Structure Mapping** 基于 **`plan.md` 定义的项目结构**，规划代码文件的物理路径。
 
 - *例如*: 如果 Plan 中定义了 `src/domain/models/`，那么 Blueprint 生成的实体类型必须放在该目录下。
 
@@ -31,13 +28,13 @@ $ARGUMENTS
 
 ### 1. Initialization
 
-执行脚本 `{SCRIPT}`。
+执行脚本 `scripts/setup-blueprint.ps1`。
 
 - 该脚本会创建 `blueprint.md` 模板文件。
 
 ### 2. Scaffold Implementation (生成代码桩)
 
-**CRITICAL RULE: DO NOT IMPLEMENT BUSINESS LOGIC. WRITE ONLY INTERFACES, TYPES, AND SIGNATURES.**
+**关键规则：不要实现业务逻辑。只编写接口、类型和签名。**
 
 你需要直接在项目中创建/写入以下**物理代码文件**（不仅仅是 Markdown）：
 
@@ -64,11 +61,13 @@ $ARGUMENTS
   - 函数名应清晰描述场景（如 `test_user_checkout_success`）。
   - **Body**: 写好 Given/When/Then 的注释步骤，并放置一个 `assert False, "Test not implemented"` 或类似失败断言。
 
+**重要事项：只生成上面提到的这些内容的代码桩，其他内容（比如前端组件、工具函数等）是在implement阶段进行代码实现的，本阶段不需要实现**
+
 ### 3. Blueprint Documentation (`blueprint.md`)
 
 读取并填充 `blueprint.md` 模板：
 
-- **Structure Manifest (文件清单)**: 列出你刚刚创建的所有文件路径及其职责。
+- **Structure Manifest (文件清单)**: 列出你刚刚创建的**所有**文件路径及其职责。
 - **Interface Signatures **: 记录核心接口的签名摘要。
 - **Test Scaffolding Plan**: 测试覆盖率映射
 

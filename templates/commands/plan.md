@@ -4,9 +4,6 @@ handoffs:
   - label: 生成蓝图契约
     agent: speckit.blueprint
     prompt: 生成最终的开发蓝图契约
-scripts:
-  sh: scripts/bash/setup-plan.sh
-  ps: scripts/powershell/setup-plan.ps1
 ---
 
 ## User Input
@@ -27,7 +24,7 @@ $ARGUMENTS
 
 ### 1. Initialization
 
-执行脚本 `{SCRIPT}`。
+执行脚本 `scripts/setup-plan.ps1`。
 
 - 该脚本会将 `plan-template.md` 复制为 `plan.md`，并创建空的 `api.md`, `data-model.md`, `quickstart.md`文档。
 
@@ -44,7 +41,31 @@ $ARGUMENTS
 - **High-Level Architecture**: 使用 Mermaid 绘制组件图。
 - **Implementation Strategy**: 将 Spec 中的 Story 映射为技术实现方案（不要包含具体代码，plan这一步仅为技术方案设计，还未具体到代码实现）。
 - **Security & Scalability**：根据上面设计的技术方案，填写项目需要的安全和可扩展性方面的内容
-- **Project Structure**：根据上面设计的技术方案，决定项目的结构
+- **Project Structure**：根据上面设计的技术方案，决定项目的结构。**注意，项目结构必须要遵循使用的技术栈，结构必须完整！**例如：前端使用React+TS+Vite，则项目结构需要遵循Vite构建的React+TS项目的结构。**其他技术栈则遵循各自的项目结构，可在技术栈对应的结构上根据实际情况进行扩展，但基础结构必须得遵循技术栈的来（例如：这个React+TS+Vite项目，可以添加api目录存放请求函数等等，但是基础的main.tsx，App.tsx、index.html等等这些是必须要有的！）**
+
+  ```
+  my-app/
+  ├── .gitignore
+  ├── eslint.config.js
+  ├── index.html
+  ├── package.json
+  ├── package-lock.json
+  ├── README.md
+  ├── tsconfig.app.json
+  ├── tsconfig.json
+  ├── tsconfig.node.json
+  ├── vite.config.ts
+  ├── node_modules/
+  ├── public/
+  │   └── vite.svg
+  └── src/
+      ├── App.css
+      ├── App.tsx
+      ├── index.css
+      ├── main.tsx
+      └── assets/
+          └── react.svg
+  ```
 
 #### B. Data Model (`data-model.md`)
 

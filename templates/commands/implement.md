@@ -1,8 +1,5 @@
 ---
 description: 执行实施计划，基于 Tasks 和 Blueprint 进行代码实现。
-scripts:
-  sh: scripts/bash/setup-implement.sh
-  ps: scripts/powershell/setup-implement.ps1
 ---
 
 ## User Input
@@ -21,11 +18,11 @@ $ARGUMENTS
 
 **Step 2: Environment Check**
 
-- 执行 `scripts/bash/setup-implement.sh` 进行环境健康检查。
+- 执行 `scripts/setup-implement.ps1` 进行环境健康检查。
 
 ## Execution Strategy
 
-你将按照 `tasks.md` 定义的 **Phases** 顺序执行（每个Phase的任务也按照顺序执行）。在每个 Phase 内部，遵循以下逻辑：
+你将按照 `tasks.md` 定义的 **Phases** 顺序执行（每个Phase需要顺序执行，但每个Phase中的的任务，如果有可并行的任务，则派发多个子代理并行执行这些任务，子代理根据任务类型选择项目下的coder、database-architect、qa-engineer、chart-specialist）。在每个 Phase 内部，遵循以下逻辑：
 
 ### 1. Task Analysis & Role Assignment
 
@@ -41,7 +38,7 @@ $ARGUMENTS
 
 ### 2. Parallel Fan-Out (MapReduce)
 
-对于标记为 `[P]` 的可并行任务，同时派发子代理（Sub-Agents）并行执行，子代理根据任务类型选择。
+在每个阶段内对于标记为 `[P]` 的可并行任务，同时派发多个子代理（Sub-Agents）并行执行这些任务，子代理根据任务类型选择。
 
 ### 3. Implementation Protocol (TDD Guard)
 

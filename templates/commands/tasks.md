@@ -4,9 +4,6 @@ handoffs:
   - label: 填充实施
     agent: speckit.implement
     prompt: 读取 tasks.md，按顺序或并行执行编码任务
-scripts:
-  sh: scripts/bash/setup-tasks.sh
-  ps: scripts/powershell/setup-tasks.ps1
 ---
 
 ## User Input
@@ -27,7 +24,7 @@ $ARGUMENTS
 **Step 1: Load Full Context** 读取当前分支下的所有设计资产，构建完整上下文：
 
 1. **Spec** (`spec.md`): 获取 User Stories 优先级和验收标准。
-2. **Plan** (`plan.md`): 获取技术栈和分层架构决策。
+2. **Plan** (`plan.md`): 获取技术栈、分层架构决策以及项目结构。
 3. **Data Model** (`data-model.md`): 获取实体定义。
 4. **API** (`api.md`): 获取接口契约。
 5. **Quickstart** (`quickstart.md`): 获取启动和测试命令。
@@ -37,7 +34,7 @@ $ARGUMENTS
 
 ### 1. Initialization
 
-执行脚本 `{SCRIPT}`。
+执行脚本 `scripts/setup-tasks.ps1`。
 
 - 该脚本会在 `specs/<branch>/` 下创建 `tasks.md` 模板。
 
@@ -68,7 +65,7 @@ $ARGUMENTS
 - **格式**: `- [ ] [ID] [P] 任务标题 (Depends on: X)`
 - **[P] 标记**: 仅当任务可并行时（处理不同文件，且不依赖于未完成的任务），打上 `[P]`标记。
 - **Organization Rule (Phased Approach)**: 任务必须严格按照以下 **阶段 (Phases)** 进行**分组**，严禁混杂，下面**Detailed Task Definitions (详情)**里的任务顺序也必须按这个阶段顺序排列，与看板对应：
-  - **Phase 1: Infrastructure & Setup**: 必须作为第一阶段。汇总 `plan.md` (技术栈搭建) 和 `quickstart.md` (环境配置) 中的所有基础任务。这些任务是后续所有工作的**阻塞性依赖**。
+  - **Phase 1: Infrastructure & Setup**: 必须作为第一阶段。汇总 `plan.md` (技术栈搭建) 和 `quickstart.md` (环境配置) 中的所有基础任务（包括构建基础的项目结构，比如前端创建main.tsx、App.tsx等基础结构）。这些任务是后续所有工作的**阻塞性依赖**。
   - **Phase 2..N: User Story [X]**: 根据 `spec.md` 中的 User Stories，为每个故事创建一个独立的 Phase。按优先级 (P1, P2...) 排序。每个 Story 包含的任务都必须包含在该 Phase 内。
 
 #### B. Detailed Task Definitions (详情)
@@ -83,7 +80,7 @@ $ARGUMENTS
 
 - **Target Files**:
   - **优先**: 引用 Blueprint 阶段已生成的物理文件路径。
-  - **新增**: 如果 Blueprint 阶段未生成（如 UI 组件、Helper 函数等等），则根据 Plan 的目录结构和当前任务的需要来指定新的路径。
+  - **新增**: 如果 Blueprint 阶段未生成（如 UI 组件、Helper 函数等等），则依照 **Plan 阶段定义的目录结构**和当前任务的需要来指定新的路径。
 - **Context & References**: 列出该任务需要参考的设计文档（如 `api.md`）。
 - **Verification**: 必须包含明确的测试命令或验证标准。
 

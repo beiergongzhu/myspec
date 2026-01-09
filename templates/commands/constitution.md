@@ -2,9 +2,8 @@
 description: 智能初始化或“修宪”。支持从零创建项目宪法，或在保留已有规则的基础上进行增量更新。
 handoffs:
   - label: 开始定义需求
-    agent: myspec.define
+    agent: /specify
     prompt: 宪法已确立，开始定义新功能...
-
 ---
 
 ## User Input
